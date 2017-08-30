@@ -21,6 +21,13 @@
     <div class="checkout">
       <div id="app">
         {{title}}
+        <todo-item 
+          v-for="(item,index) in ts_item"
+          :todo="item" 
+          :key="index"
+        >
+        </todo-item>
+        <ts-component></ts-component>
         <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <defs>
             <symbol id="icon-add" viewBox="0 0 32 32">

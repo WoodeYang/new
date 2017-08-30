@@ -1,12 +1,25 @@
 
-
+//要确保在初始化实际例子之前注册组建
+//否则报错：did you register the component correctly? For recursive components, make sure to provide the "name" option.
+Vue.component('todo-item', {
+    props: ['todo'],
+    template: '<div>{{todo.text}}</div>'
+})
+var ts_content = {
+    template: '<div>test content01</div>',
+    props: ['param1']
+}
 var vm = new Vue({
+    components: {
+        'ts-component': ts_content
+    },
     el: "#app",
     data: {
         title: "hele",
         productList: [],
         totalMoney: 0,
-        checkAllFlag: false
+        checkAllFlag: false,
+        ts_item: [{text: '01'},{text: '02'},{text: '03'}]
     },
     filters: {
         formatMoney : function(value){
@@ -76,3 +89,4 @@ var vm = new Vue({
 Vue.filter("money", function(value,type){
     return "￥" + value.toFixed(2) + type;
 })
+
