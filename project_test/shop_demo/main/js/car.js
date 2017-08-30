@@ -19,7 +19,8 @@ var vm = new Vue({
         productList: [],
         totalMoney: 0,
         checkAllFlag: false,
-        ts_item: [{text: '01'},{text: '02'},{text: '03'}]
+        ts_item: [{text: '01'},{text: '02'},{text: '03'}],
+        delFlag: false
     },
     filters: {
         formatMoney : function(value){
@@ -38,7 +39,7 @@ var vm = new Vue({
             var _this = this;
             this.$http.get("data/cartData.json").then(function(res){
                 _this.productList = res.data.result.list;
-                _this.totalMoney = res.data.result.totalMoney
+                // _this.totalMoney = res.data.result.totalMoney
             })
         },
         changeMoney: function(product, way){
@@ -50,6 +51,7 @@ var vm = new Vue({
                      product.productQuantity = 0;
                 }
             }
+            this.calcTotalPrice();
         },
         selectedProduct: function(item){
             if(typeof item.checked == 'undefined'){
@@ -60,6 +62,7 @@ var vm = new Vue({
             }else{
                 item.checked = !item.checked;
             }
+            this.calcTotalPrice();
         },
         checkAll: function(flag){
             // this.checkAllFlag = !this.checkAllFlag;
@@ -80,6 +83,17 @@ var vm = new Vue({
                     _this.$set(item, "checked", _this.checkAllFlag);
                 }else{
                     item.checked =  _this.checkAllFlag;
+                }
+            })
+            this.calcTotalPrice();
+        },
+        calcTotalPrice: function(){
+            var _this = this;
+            this.totalMoney = 0;
+            //选中商品
+            this.productList.forEach(function(item, index){
+                if(item.checked){
+                    _this.totalMoney += item.productPrice*item.productQuantity;
                 }
             })
         }
